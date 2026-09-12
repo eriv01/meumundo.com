@@ -1,0 +1,11 @@
+{
+  "name": "meu-novo-projeto",
+  "version": "1.0.0",
+  "private": true,
+  "engines": {
+    "node": ">=18.x"
+  },
+  "dependencies": {
+    "@vercel/kv": "^2.0.0"
+  }
+}
