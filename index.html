@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Título da Página</title>
+<meta name="description" content="Descrição da página.">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  :root{
+    --accent:#E8000D;
+    --accent-dark:#B50009;
+    --bg:#0a0a0a;
+    --card-bg:#161616;
+    --text-muted:#999;
+    --border:#2a2a2a;
+  }
+  html{font-size:16px;scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:#fff;
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    min-height:100vh;
+    overflow-x:hidden;
+  }
+
+  .main{
+    max-width:480px;
+    margin:0 auto;
+    padding:0 16px 40px;
+  }
+
+  /* ===== HERO / VSL PAGE ===== */
+  .headline-wrap{
+    padding:28px 8px 16px;
+    text-align:center;
+  }
+  h1{
+    font-size:clamp(22px,6vw,32px);
+    font-weight:900;
+    line-height:1.2;
+    color:#fff;
+  }
+  h1 span{color:var(--accent);}
+
+  /* Slot de imagem 9:16 */
+  .media-wrap{
+    position:relative;
+    width:100%;
+    aspect-ratio:9/16;
+    border-radius:14px;
+    overflow:hidden;
+    background:var(--card-bg);
+    border:2px solid var(--border);
+    margin:18px 0;
+  }
+  .media-wrap img,
+  .media-wrap video{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+  }
+
+  .sub-headline{
+    text-align:center;
+    font-size:clamp(14px,4vw,17px);
+    color:#ccc;
+    font-weight:500;
+    line-height:1.5;
+    margin-bottom:22px;
+  }
+
+  #cta-btn{
+    width:100%;
+  }
+  #cta-btn button{
+    width:100%;
+    background:linear-gradient(135deg,var(--accent),var(--accent-dark));
+    color:#fff;
+    border:none;
+    border-radius:10px;
+    padding:18px 24px;
+    font-size:clamp(16px,4.5vw,20px);
+    font-weight:900;
+    text-transform:uppercase;
+    letter-spacing:.5px;
+    cursor:pointer;
+    box-shadow:0 4px 20px rgba(232,0,13,.4);
+    animation:pulse-btn 2s infinite;
+  }
+  @keyframes pulse-btn{
+    0%,100%{box-shadow:0 4px 20px rgba(232,0,13,.4),0 0 0 0 rgba(232,0,13,.3)}
+    50%{box-shadow:0 4px 28px rgba(232,0,13,.6),0 0 0 10px rgba(232,0,13,0)}
+  }
+
+  footer{
+    text-align:center;
+    font-size:11px;
+    color:var(--text-muted);
+    padding:24px 12px 0;
+    line-height:1.7;
+  }
+
+  /* ===== PIX / CHECKOUT PAGE ===== */
+  #pix-page{
+    display:none;
+    min-height:100vh;
+    background:var(--bg);
+  }
+
+  .checkout-banner{
+    width:100%;
+    max-width:480px;
+    margin:0 auto;
+    aspect-ratio:16/9;
+    overflow:hidden;
+    background:var(--card-bg);
+  }
+  .checkout-banner img{
+    width:100%;
+    height:100%;
+    display:block;
+    object-fit:cover;
+  }
+
+  .pix-header{
+    text-align:center;
+    padding:20px 16px 8px;
+  }
+  .pix-header h2{
+    font-size:clamp(18px,5vw,24px);
+    font-weight:900;
+  }
+  .pix-header p{
+    font-size:13px;
+    color:var(--text-muted);
+    margin-top:6px;
+  }
+
+  .pix-body{
+    max-width:440px;
+    margin:0 auto;
+    padding:16px 16px 40px;
+  }
+
+  .form-group{
+    margin-bottom:14px;
+  }
+  .form-group label{
+    display:block;
+    font-size:12px;
+    font-weight:700;
+    color:#bbb;
+    margin-bottom:6px;
+    text-transform:uppercase;
+    letter-spacing:.5px;
+  }
+  .form-group input{
+    width:100%;
+    border:2px solid var(--border);
+    border-radius:8px;
+    padding:14px;
+    font-size:15px;
+    outline:none;
+    transition:border-color .2s;
+    background:var(--card-bg);
+    color:#fff;
+    -webkit-appearance:none;
+  }
+  .form-group input:focus{border-color:var(--accent);}
+  .form-group input::placeholder{color:#666;}
+
+  .btn-gerar{
+    width:100%;
+    background:linear-gradient(135deg,var(--accent),var(--accent-dark));
+    color:#fff;
+    border:none;
+    border-radius:10px;
+    padding:17px;
+    font-size:16px;
+    font-weight:900;
+    text-transform:uppercase;
+    cursor:pointer;
+    margin-top:8px;
+    box-shadow:0 4px 16px rgba(232,0,13,.4);
+    animation:pulse-btn 2s infinite;
+    letter-spacing:.5px;
+  }
+  .btn-gerar:disabled{
+    opacity:.6;
+    cursor:not-allowed;
+    animation:none;
+  }
+
+  .spinner{
+    display:inline-block;
+    width:16px;height:16px;
+    border:2px solid rgba(255,255,255,.4);
+    border-top-color:#fff;
+    border-radius:50%;
+    animation:spin .7s linear infinite;
+    vertical-align:middle;
+    margin-right:8px;
+  }
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  #pix-error{
+    display:none;
+    background:#2a1414;
+    border:1px solid var(--accent);
+    color:#ff8a8a;
+    border-radius:8px;
+    padding:12px 14px;
+    font-size:13px;
+    font-weight:600;
+    margin-top:10px;
+    text-align:center;
+  }
+
+  #pix-result{display:none;margin-top:20px;}
+  .pix-steps{
+    background:var(--card-bg);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:16px;
+    margin-bottom:16px;
+  }
+  .pix-steps h4{
+    font-size:13px;
+    font-weight:900;
+    margin-bottom:10px;
+    text-transform:uppercase;
+    color:#ccc;
+  }
+  .pix-step{
+    display:flex;
+    gap:10px;
+    align-items:flex-start;
+    margin-bottom:8px;
+    font-size:13px;
+    color:#bbb;
+    line-height:1.45;
+  }
+  .step-num{
+    background:var(--accent);
+    color:#fff;
+    font-size:11px;
+    font-weight:900;
+    width:22px;height:22px;
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;
+  }
+
+  .pix-code-box{
+    background:var(--card-bg);
+    border:2px dashed var(--accent);
+    border-radius:8px;
+    padding:12px;
+    margin-bottom:12px;
+  }
+  .pix-code-text{
+    font-size:10.5px;
+    color:#ccc;
+    word-break:break-all;
+    line-height:1.6;
+    font-family:monospace;
+  }
+  .btn-copiar{
+    width:100%;
+    background:transparent;
+    color:var(--accent);
+    border:2px solid var(--accent);
+    border-radius:8px;
+    padding:14px;
+    font-size:14px;
+    font-weight:900;
+    cursor:pointer;
+    text-transform:uppercase;
+    letter-spacing:.5px;
+    transition:all .2s;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+  }
+  .btn-copiar:active{background:var(--accent);color:#fff;}
+  .btn-copiar svg{width:18px;height:18px;}
+
+  .aguardando{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    font-size:14px;
+    font-weight:700;
+    color:#999;
+    margin-top:14px;
+  }
+  .pulse-dot{
+    width:12px;height:12px;
+    background:var(--accent);
+    border-radius:50%;
+    animation:pulse-dot 1.2s infinite;
+    flex-shrink:0;
+  }
+  @keyframes pulse-dot{
+    0%,100%{opacity:1;transform:scale(1)}
+    50%{opacity:.3;transform:scale(.7)}
+  }
+
+  #pix-aprovado{
+    display:none;
+    text-align:center;
+    padding:24px 16px;
+  }
+  #pix-aprovado .check-icon{font-size:56px;margin-bottom:10px;}
+  #pix-aprovado h3{
+    font-size:18px;
+    font-weight:900;
+    color:#2ecc71;
+    text-transform:uppercase;
+    margin-bottom:8px;
+  }
+  #pix-aprovado p{
+    font-size:14px;
+    color:#ccc;
+    line-height:1.5;
+  }
+  .btn-acesso{
+    display:inline-block;
+    margin-top:18px;
+    background:linear-gradient(135deg,var(--accent),var(--accent-dark));
+    color:#fff;
+    padding:16px 36px;
+    font-size:15px;
+    font-weight:900;
+    text-decoration:none;
+    border-radius:10px;
+    text-transform:uppercase;
+    letter-spacing:.5px;
+    box-shadow:0 4px 16px rgba(232,0,13,.4);
+  }
+
+  #copy-toast{
+    position:fixed;
+    bottom:20px;left:50%;
+    transform:translateX(-50%) translateY(60px);
+    background:#222;
+    color:#fff;
+    padding:10px 20px;
+    border-radius:999px;
+    font-size:13px;
+    font-weight:700;
+    z-index:9999;
+    transition:transform .3s ease;
+    pointer-events:none;
+  }
+  #copy-toast.show{transform:translateX(-50%) translateY(0);}
+
+  ::-webkit-scrollbar{width:4px;}
+  ::-webkit-scrollbar-thumb{background:#333;border-radius:999px;}
+</style>
+</head>
+<body>
+
+<!-- ===== PÁGINA INICIAL ===== -->
+<div id="hero-page">
+  <div class="main">
+
+    <div class="headline-wrap">
+      <h1>Sua <span>Headline</span> Aqui</h1>
+    </div>
+
+    <!-- SLOT DE IMAGEM 9:16 — troque o src abaixo -->
+    <div class="media-wrap">
+      <img src="https://via.placeholder.com/900x1600/161616/666666?text=Imagem+9%3A16" alt="Imagem principal">
+    </div>
+
+    <p class="sub-headline">Sua subheadline explicando a oferta vai aqui, abaixo da imagem.</p>
+
+    <div id="cta-btn">
+      <button onclick="goToPix()">QUERO GARANTIR AGORA</button>
+    </div>
+
+    <footer>
+      © 2026 — Todos os direitos reservados
+    </footer>
+  </div>
+</div>
+
+<!-- ===== PÁGINA DE CHECKOUT ===== -->
+<div id="pix-page">
+  <div class="checkout-banner">
+    <img src="https://via.placeholder.com/1280x720/161616/666666?text=Banner+do+Checkout" alt="Banner">
+  </div>
+
+  <div class="pix-header">
+    <h2>Última Etapa</h2>
+    <p>Preencha seu nome para gerar o PIX</p>
+  </div>
+
+  <div class="pix-body">
+    <div id="pix-form">
+      <div class="form-group">
+        <label>Nome completo</label>
+        <input type="text" id="inp-nome" placeholder="Seu nome completo" autocomplete="name">
+      </div>
+
+      <button class="btn-gerar" id="btn-gerar" onclick="gerarPix()">GERAR PIX COPIA E COLA</button>
+      <div id="pix-error"></div>
+    </div>
+
+    <div id="pix-result">
+      <div class="pix-steps">
+        <h4>Como pagar com PIX:</h4>
+        <div class="pix-step">
+          <span class="step-num">1</span>
+          <span>Abra o aplicativo do seu banco</span>
+        </div>
+        <div class="pix-step">
+          <span class="step-num">2</span>
+          <span>Toque em <strong>PIX → Pagar → Copia e Cola</strong></span>
+        </div>
+        <div class="pix-step">
+          <span class="step-num">3</span>
+          <span>Cole o código copiado abaixo</span>
+        </div>
+        <div class="pix-step">
+          <span class="step-num">4</span>
+          <span>Confirme o pagamento e aguarde a liberação</span>
+        </div>
+      </div>
+
+      <div class="pix-code-box">
+        <div class="pix-code-text" id="pix-code-display"></div>
+      </div>
+
+      <button class="btn-copiar" onclick="copiarCodigo()">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+        COPIAR CÓDIGO PIX
+      </button>
+
+      <div class="aguardando" id="aguardando">
+        <span class="pulse-dot"></span>
+        Aguardando pagamento...
+      </div>
+    </div>
+
+    <div id="pix-aprovado">
+      <div class="check-icon">✅</div>
+      <h3>Pagamento aprovado!</h3>
+      <p>Seu acesso foi liberado. Clique no botão abaixo.</p>
+      <a href="https://SEU-LINK-DE-ACESSO-AQUI" target="_blank" rel="noopener" class="btn-acesso">Acessar Agora</a>
+    </div>
+  </div>
+</div>
+
+<div id="copy-toast">✅ Código copiado!</div>
+
+<script>
+let currentPixCode = '';
+let pollInterval = null;
+
+function goToPix(){
+  document.getElementById('hero-page').style.display = 'none';
+  document.getElementById('pix-page').style.display = 'block';
+  window.scrollTo(0,0);
+}
+
+function showPixError(msg){
+  const errBox = document.getElementById('pix-error');
+  errBox.textContent = msg;
+  errBox.style.display = 'block';
+}
+function hidePixError(){
+  document.getElementById('pix-error').style.display = 'none';
+}
+
+async function gerarPix(){
+  const nome = document.getElementById('inp-nome').value.trim();
+
+  if(!nome){
+    showPixError('Preencha seu nome para continuar.');
+    return;
+  }
+
+  hidePixError();
+
+  const btn = document.getElementById('btn-gerar');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span> GERANDO PIX...';
+
+  try {
+    // Ajuste o email caso seu backend exija o campo — aqui geramos um
+    // e-mail placeholder já que a página só pede nome.
+    const email = `lead-${Date.now()}@sem-email.com`;
+
+    const response = await fetch('/api/criar-pix', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ nome, email })
+    });
+
+    const data = await response.json();
+
+    if(!response.ok){
+      throw new Error(data.error || 'Erro ao gerar PIX. Tente novamente.');
+    }
+
+    document.getElementById('pix-code-display').textContent = data.qr_code;
+    currentPixCode = data.qr_code;
+
+    document.getElementById('pix-form').style.display = 'none';
+    document.getElementById('pix-result').style.display = 'block';
+    document.getElementById('pix-result').scrollIntoView({behavior:'smooth',block:'start'});
+
+    iniciarPolling(data.id);
+
+  } catch(err){
+    console.error(err);
+    showPixError(err.message || 'Erro ao gerar PIX. Tente novamente.');
+    btn.disabled = false;
+    btn.innerHTML = 'GERAR PIX COPIA E COLA';
+  }
+}
+
+function iniciarPolling(paymentId){
+  if(pollInterval) clearInterval(pollInterval);
+
+  pollInterval = setInterval(async ()=>{
+    try {
+      const response = await fetch('/api/status-pix?id=' + paymentId);
+      const data = await response.json();
+
+      if(response.ok && data.status === 'approved'){
+        clearInterval(pollInterval);
+        document.getElementById('pix-result').style.display = 'none';
+        document.getElementById('pix-aprovado').style.display = 'block';
+        document.getElementById('pix-aprovado').scrollIntoView({behavior:'smooth',block:'start'});
+      }
+    } catch(err){
+      console.error('Erro ao verificar status:', err);
+    }
+  }, 5000);
+}
+
+function copiarCodigo(){
+  if(!currentPixCode) return;
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(currentPixCode).then(showToast);
+  } else {
+    const ta = document.createElement('textarea');
+    ta.value = currentPixCode;
+    ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    showToast();
+  }
+}
+
+function showToast(){
+  const t = document.getElementById('copy-toast');
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2500);
+}
+</script>
+</body>
+</html>
